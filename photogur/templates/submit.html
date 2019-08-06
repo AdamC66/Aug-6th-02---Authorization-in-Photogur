@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/picture.css' %}">
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'submit' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Title"><br>
+        <input type="text" name="artist" placeholder="Artist"><br>
+        <input type="text" name="url" placeholder="URL"><br>
+        <input type="submit" value="Submit" >
+    </form>
+{% endblock %}

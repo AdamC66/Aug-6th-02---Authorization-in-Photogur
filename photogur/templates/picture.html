@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/picture.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>{{ picture.title }}</h1>
+    <h2>{{ picture.artist }}</h2>
+    <img src="{{ picture.url }}" alt="{{ picture.title }}">
+    <h4>Submitted by {{ picture.user.username }}</h4>
+    <ul>
+    {% for comment in picture.comments.all %}
+        <li>
+            <h4>{{ comment.name }}</h4>
+            <p>{{ comment.message }}</p>
+            <p>{{ comment.created_at }}</p>
+            
+        </li>
+    {% endfor %}
+    </ul>
+    <form action="{% url 'create_comment' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="picture" value="{{ picture.pk }}">
+        <input type="text" name="name" placeholder="Name"><br>
+        <input type="text" name="message" placeholder="Comment"><br>
+        <input type="submit" value="Submit" >
+    </form>
+{% endblock %}
+

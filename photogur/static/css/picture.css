@@ -1,0 +1,52 @@
+body{
+    display: block;
+}
+
+header a{
+  text-decoration:none; 
+  color: black;
+  opacity: 0.6;
+  display: block
+}
+
+  header h1{
+    /* color: grey;
+    opacity: 0.8;
+    display: block; */
+    border-bottom: 2px solid black;
+  }
+
+  footer{
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px 0px;
+    display: block;
+    text-align: center;
+    background-color: black;
+    color: white;
+  }
+
+  img{
+    display: block;
+    margin: 0 auto;
+  }
+
+  ul{
+    box-sizing: content-box;
+    margin: 0 auto;
+    width: 20%;
+  }
+
+  li{
+    
+    list-style: none;
+    margin: 0;
+    border: 1px solid black;
+  }
+
+  li h4{
+    margin: 0;
+  }
+  li p{
+    margin: 0;
+  }
