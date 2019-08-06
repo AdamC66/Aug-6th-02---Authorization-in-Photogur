@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/picture.css' %}">
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'edit' id=picture.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" value="{{picture.title}}"><br>
+        <input type="text" name="artist" value="{{picture.artist}}"><br>
+        <input type="text" name="url" value="{{picture.url}}"><br>
+        <input type="submit" value="Submit" >
+    </form>
+{% endblock %}

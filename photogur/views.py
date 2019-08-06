@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from photogur.models import Picture, Comment
 from django.db.models import Q
 from photogur.forms import LoginForm
@@ -38,6 +38,8 @@ def create_comment(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/pictures')
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -61,6 +63,8 @@ def logout_view(request):
     return HttpResponseRedirect('/pictures')
 
 def signup(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/pictures')
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -75,8 +79,8 @@ def signup(request):
     html_response =  render(request, 'signup.html', {'form': form})
     return HttpResponse(html_response)
 
+@login_required
 def submit(request):
-    
     if request.method == 'POST':
         new_picture = Picture(title = request.POST['title'], artist = request.POST['artist'], url = request.POST['url'], user = request.user)
         new_picture.save()
@@ -84,3 +88,17 @@ def submit(request):
         return render(request,'picture.html', context)
     else:
         return render(request, 'submit.html')
+
+@login_required
+def edit(request, id):
+    picture = get_object_or_404(Picture, pk=id, user=request.user.pk)
+    if request.method == 'POST':
+        picture.title = request.POST['title']
+        picture.artist = request.POST['artist']
+        picture.url = request.POST['url']
+        picture.save()
+        context = {'picture':picture}
+        return render(request,'picture.html', context)
+    else:
+        context = {'picture':picture}
+        return render(request, 'edit.html', context)
